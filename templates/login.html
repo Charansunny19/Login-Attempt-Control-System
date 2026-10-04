@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Login Attempt Control System</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('style_css') }}">
+
+</head>
+
+<body>
+
+    <div class="page">
+
+        <div class="login-card">
+
+            <div class="security-icon">
+                🔐
+            </div>
+
+            <h1>Secure Login</h1>
+
+            <p class="subtitle">
+                Login Attempt Control System
+            </p>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+
+                {% if messages %}
+
+                    {% for category, message in messages %}
+
+                        <div class="alert {{ category }}">
+                            {{ message }}
+                        </div>
+
+                    {% endfor %}
+
+                {% endif %}
+
+            {% endwith %}
+
+            <form method="POST">
+
+                <div class="form-group">
+
+                    <label for="username">
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Enter username"
+                        required
+                        autocomplete="username"
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter password"
+                        required
+                        autocomplete="current-password"
+                    >
+
+                </div>
+
+                <button type="submit">
+                    Login
+                </button>
+
+            </form>
+
+            <div class="security-info">
+
+                <div class="info-item">
+                    <span>🛡️</span>
+                    <span>5 failed attempts allowed</span>
+                </div>
+
+                <div class="info-item">
+                    <span>⏱️</span>
+                    <span>15 minute lockout</span>
+                </div>
+
+                <div class="info-item">
+                    <span>📋</span>
+                    <span>Security events are logged</span>
+                </div>
+
+            </div>
+
+            <div class="demo-info">
+
+                <p>
+                    <strong>Demo Account</strong>
+                </p>
+
+                <p>
+                    Username: <b>admin</b>
+                </p>
+
+                <p>
+                    Password: <b>Admin@123</b>
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

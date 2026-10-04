@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Security Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('style_css') }}">
+
+</head>
+
+<body>
+
+    <div class="dashboard-container">
+
+        <!-- HEADER -->
+
+        <header class="dashboard-header">
+
+            <div>
+
+                <h1>
+                    🛡️ Security Dashboard
+                </h1>
+
+                <p>
+                    Login Attempt Control System
+                </p>
+
+            </div>
+
+            <div class="user-section">
+
+                <span>
+                    👤 {{ username }}
+                </span>
+
+                <a href="{{ url_for('logout') }}"
+                   class="logout-btn">
+                    Logout
+                </a>
+
+            </div>
+
+        </header>
+
+
+        <!-- SECURITY STATUS -->
+
+        <section class="stats">
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    🔐
+                </div>
+
+                <div>
+
+                    <h3>
+                        Login Protection
+                    </h3>
+
+                    <p>
+                        Active
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    🚫
+                </div>
+
+                <div>
+
+                    <h3>
+                        Maximum Attempts
+                    </h3>
+
+                    <p>
+                        5 Attempts
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    ⏱️
+                </div>
+
+                <div>
+
+                    <h3>
+                        Lockout Duration
+                    </h3>
+
+                    <p>
+                        15 Minutes
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    📋
+                </div>
+
+                <div>
+
+                    <h3>
+                        Audit Logging
+                    </h3>
+
+                    <p>
+                        Enabled
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- AUDIT LOGS -->
+
+        <section class="logs-section">
+
+            <div class="section-header">
+
+                <div>
+
+                    <h2>
+                        Security Audit Logs
+                    </h2>
+
+                    <p>
+                        Recent login and security events
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>Username</th>
+
+                            <th>IP Address</th>
+
+                            <th>Event</th>
+
+                            <th>Timestamp</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% if logs %}
+
+                            {% for log in logs %}
+
+                                <tr>
+
+                                    <td>
+                                        {{ log["id"] }}
+                                    </td>
+
+                                    <td>
+                                        {{ log["username"] }}
+                                    </td>
+
+                                    <td>
+                                        {{ log["ip_address"] }}
+                                    </td>
+
+                                    <td>
+
+                                        {% if "SUCCESSFUL" in log["event"] %}
+
+                                            <span class="event success">
+                                                {{ log["event"] }}
+                                            </span>
+
+                                        {% elif "LOCKED" in log["event"] or "BLOCKED" in log["event"] %}
+
+                                            <span class="event danger">
+                                                {{ log["event"] }}
+                                            </span>
+
+                                        {% elif "FAILED" in log["event"] %}
+
+                                            <span class="event warning">
+                                                {{ log["event"] }}
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="event normal">
+                                                {{ log["event"] }}
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+                                    <td>
+                                        {{ log["timestamp"] }}
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        {% else %}
+
+                            <tr>
+
+                                <td colspan="5"
+                                    class="no-data">
+
+                                    No audit logs available.
+
+                                </td>
+
+                            </tr>
+
+                        {% endif %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- PROJECT INFORMATION -->
+
+        <section class="project-info">
+
+            <h2>
+                🔒 Protection Features
+            </h2>
+
+            <div class="feature-grid">
+
+                <div class="feature">
+
+                    <h3>
+                        Failed Attempt Tracking
+                    </h3>
+
+                    <p>
+                        The system tracks failed login attempts
+                        based on username and IP address.
+                    </p>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <h3>
+                        Automatic Lockout
+                    </h3>
+
+                    <p>
+                        Five consecutive failed attempts
+                        automatically trigger a 15-minute lockout.
+                    </p>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <h3>
+                        Security Audit
+                    </h3>
+
+                    <p>
+                        Login failures, successful logins,
+                        lockouts and logout events are recorded.
+                    </p>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <h3>
+                        Brute-Force Protection
+                    </h3>
+
+                    <p>
+                        Repeated password guessing attempts
+                        are detected and blocked automatically.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</body>
+
+</html>
